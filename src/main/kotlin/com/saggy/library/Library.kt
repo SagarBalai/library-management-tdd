@@ -2,7 +2,13 @@ package com.saggy.library
 
 class Library(private val bookService: BookService) {
 
-    fun getAllBooks():List<Book>{
+    fun getAllBooks(): List<Book> {
         return bookService.getBooks()
     }
+
+    fun borrowBook(userId: String, bookId: String): Boolean {
+        return true
+    }
+
+
 }

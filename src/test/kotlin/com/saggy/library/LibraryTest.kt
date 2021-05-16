@@ -6,7 +6,8 @@ import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class LibraryTest {
 
@@ -26,7 +27,7 @@ internal class LibraryTest {
         // given
         given(bookService.getBooks()).willReturn(emptyList())
 
-        //when
+        // when
         val result = subject.getAllBooks()
 
         // then
@@ -38,11 +39,24 @@ internal class LibraryTest {
         // given
         given(bookService.getBooks()).willReturn(listOf(Book("1", "Harry potter", "J L Rowling", 12000.98)))
 
-        //when
+        // when
         val result = subject.getAllBooks()
 
         // then
         assertEquals(1, result.size)
     }
 
+    @Test
+    fun `borrowBook -- happy path`() {
+        // given
+        given(bookService.getBooks()).willReturn(listOf(Book("1", "Harry potter", "J L Rowling", 12000.98)))
+        val userId = ""
+        val bookId = "1"
+
+        // when
+        val result= subject.borrowBook(userId, bookId)
+
+        // then
+        assertTrue(result)
+    }
 }
