@@ -11,4 +11,8 @@ class BookService {
     fun addBook(book: Book) {
         books.add(book)
     }
+
+    fun borrowBook(bookId: String): Boolean {
+        return false
+    }
 }
