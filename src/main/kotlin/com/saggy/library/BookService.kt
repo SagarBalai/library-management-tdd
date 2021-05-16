@@ -2,17 +2,17 @@ package com.saggy.library
 
 class BookService {
 
-    private val books = mutableListOf<Book>()
+    private val books = mutableMapOf<String, Book>()
 
     fun getBooks(): List<Book> {
-        return books
+        return books.values.toList()
     }
 
     fun addBook(book: Book) {
-        books.add(book)
+        books[book.id] = book
     }
 
     fun borrowBook(bookId: String): Boolean {
-        return books.removeIf{ it.id == bookId}
+        return books.remove(bookId) !=null
     }
 }

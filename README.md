@@ -57,3 +57,8 @@ Only 1 copy of a book can be borrowed by a User at any point of time
 
 To commit with personal Id use below command after each commit: 
     git commit --amend --author "Sagar Balai <sagra10feb@gmail.com>"
+    
+    
+Decisions:
+1. Replace list to map -- improve performance in borrowBook
+   Currently to remove element from List - it iterate over complete list so O(N) which can be reduced to O(1) 
