@@ -13,6 +13,6 @@ class BookService {
     }
 
     fun borrowBook(bookId: String): Boolean {
-        return true
+        return books.removeIf{ it.id == bookId}
     }
 }

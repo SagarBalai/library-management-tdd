@@ -54,8 +54,27 @@ internal class BookServiceTest {
         assertTrue(result)
 
         val availableBooks = subject.getBooks()
-        assertTrue(availableBooks.size ==2)
-        assertTrue (availableBooks.none { it.id == bookId })
+        assertTrue(availableBooks.size == 2)
+        assertTrue(availableBooks.none { it.id == bookId })
+    }
+
+
+    @Test
+    fun `borrowBook - should return false for given book is available in library`() {
+        // given
+        val subject = BookService()
+        val bookId = "book-1"
+        subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
+        subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
+
+        //when
+        val result = subject.borrowBook(bookId)
+
+        // then
+        assertFalse(result)
+
+        val availableBooks = subject.getBooks()
+        assertTrue(availableBooks.size == 2)
     }
 
 
