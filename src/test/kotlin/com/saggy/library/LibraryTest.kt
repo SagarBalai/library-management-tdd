@@ -62,7 +62,7 @@ internal class LibraryTest {
 
         // then
         verify(bookService).borrowBook(bookId)
-        verify(userService).addBook(bookId)
+        verify(userService).addBook(userId,bookId)
         assertTrue(result)
     }
 

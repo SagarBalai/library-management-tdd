@@ -1,8 +1,8 @@
 package com.saggy.library
 
 class UserService {
-    fun addBook(bookId: String): Boolean {
-        return false
+    fun addBook(userId: String, bookId: String): Boolean {
+        return true
     }
 
 }

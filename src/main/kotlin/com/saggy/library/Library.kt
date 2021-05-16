@@ -1,6 +1,6 @@
 package com.saggy.library
 
-class Library(private val bookService: BookService, val userService: UserService) {
+class Library(private val bookService: BookService, private val userService: UserService) {
 
     fun getAllBooks(): List<Book> {
         return bookService.getBooks()
@@ -9,7 +9,7 @@ class Library(private val bookService: BookService, val userService: UserService
     fun borrowBook(userId: String, bookId: String): Boolean {
         var borrowBook = bookService.borrowBook(bookId)
         if (borrowBook) {
-            userService.addBook(bookId)
+            userService.addBook(userId,bookId)
             return true
         }
         return false
