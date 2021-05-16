@@ -6,8 +6,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 internal class LibraryTest {
 
@@ -23,7 +22,7 @@ internal class LibraryTest {
     }
 
     @Test
-    fun `getAllBooks should return empty list when no book`() {
+    fun `getAllBooks should return empty list when library dont have any book`() {
         // given
         given(bookService.getBooks()).willReturn(emptyList())
 
@@ -45,4 +44,5 @@ internal class LibraryTest {
         // then
         assertEquals(1, result.size)
     }
+
 }

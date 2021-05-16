@@ -53,3 +53,7 @@ Only 1 copy of a book can be borrowed by a User at any point of time
     Given, I have 2 books in my borrowed list
 	When, I return both books to the library
 	Then, my borrowed list is empty
+
+
+To commit with personal Id use below command after each commit: 
+    git commit --amend --author "Sagar Balai <sagra10feb@gmail.com>"
