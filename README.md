@@ -15,7 +15,9 @@
     Given, there are books in the library
     When, I view the books in the library
     Then, I see the list of books in the library
-    User can borrow a book from the library
+   
+   
+  2 User can borrow a book from the library
             
     Given, there are books in the library
     When, I choose a book to add to my borrowed list
@@ -26,7 +28,7 @@ Note:
     Each User has a borrowing limit of 2 books at any point of time
 
 
-  2  User can borrow a copy of a book from the library
+  3  User can borrow a copy of a book from the library
 
     Given, there are more than one copy of a book in the library
     When, I choose a book to add to my borrowed list

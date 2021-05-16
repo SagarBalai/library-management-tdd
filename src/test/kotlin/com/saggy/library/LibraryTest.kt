@@ -1,16 +1,31 @@
 package com.saggy.library
 
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
+import org.mockito.BDDMockito.given
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class LibraryTest {
 
+    @Mock
+    private lateinit var bookService: BookService
+
+    @InjectMocks
+    private lateinit var subject: Library
+
+    @Before
+    fun init() {
+        MockitoAnnotations.openMocks(this)
+    }
 
     @Test
     fun `getAllBooks should return empty list when no book`() {
         // given
-        val subject = Library()
+        given(bookService.getBooks()).willReturn(emptyList())
 
         //when
         val result = subject.getAllBooks()
@@ -22,7 +37,7 @@ internal class LibraryTest {
     @Test
     fun `getAllBooks should return 1 element list when one book is available`() {
         // given
-        val subject = Library()
+        given(bookService.getBooks()).willReturn(listOf(Book("1", "Harry potter", "J L Rowling", 12000.98)))
 
         //when
         val result = subject.getAllBooks()

@@ -1,8 +1,8 @@
 package com.saggy.library
 
-class Library {
+class Library(private val bookService: BookService) {
 
     fun getAllBooks():List<Book>{
-        return emptyList()
+        return bookService.getBooks()
     }
 }
