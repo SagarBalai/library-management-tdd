@@ -13,6 +13,6 @@ class BookService {
     }
 
     fun borrowBook(bookId: String): Boolean {
-        return false
+        return true
     }
 }

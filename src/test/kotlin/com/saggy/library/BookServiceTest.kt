@@ -42,15 +42,20 @@ internal class BookServiceTest {
     fun `borrowBook - should return true and remove book from library for given book is available in library`() {
         // given
         val subject = BookService()
-        subject.addBook(Book("book-1", "Harry potter", "J K Rowling", 12000.98))
+        val bookId = "book-1"
+        subject.addBook(Book(bookId, "Harry potter", "J K Rowling", 12000.98))
         subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
         subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
 
         //when
-        val result = subject.borrowBook("book-1")
+        val result = subject.borrowBook(bookId)
 
         // then
         assertTrue(result)
+
+        val availableBooks = subject.getBooks()
+        assertTrue(availableBooks.size ==2)
+        assertTrue (availableBooks.none { it.id == bookId })
     }
 
 
