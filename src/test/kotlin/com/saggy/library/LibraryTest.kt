@@ -53,25 +53,25 @@ internal class LibraryTest {
     @Test
     fun `borrowBook -- happy path`() {
         // given
-        given(bookService.getBooks()).willReturn(listOf(Book("book-1", "Harry potter", "J L Rowling", 12000.98)))
         val userId = "user-1"
         val bookId = "book-1"
+        given(bookService.borrowBook(bookId)).willReturn(true)
 
         // when
         val result = subject.borrowBook(userId, bookId)
 
         // then
-        assertTrue(result)
         verify(bookService).borrowBook(bookId)
         verify(userService).addBook(bookId)
+        assertTrue(result)
     }
 
     @Test
-    fun `borrowBook -- should not add book to user when library dont have any book`() {
+    fun `borrowBook -- should not add book to user when given book is not available in library`() {
         // given
-        given(bookService.getBooks()).willReturn(emptyList())
         val userId = "user-1"
         val bookId = "book-1"
+        given(bookService.borrowBook(bookId)).willReturn(false)
 
         // when
         val result = subject.borrowBook(userId, bookId)

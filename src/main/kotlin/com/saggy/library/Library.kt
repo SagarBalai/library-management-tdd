@@ -7,9 +7,12 @@ class Library(private val bookService: BookService, val userService: UserService
     }
 
     fun borrowBook(userId: String, bookId: String): Boolean {
-        bookService.borrowBook(bookId)
-        userService.addBook(bookId)
-        return true
+        var borrowBook = bookService.borrowBook(bookId)
+        if (borrowBook) {
+            userService.addBook(bookId)
+            return true
+        }
+        return false
     }
 
 
