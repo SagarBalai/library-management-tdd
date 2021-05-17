@@ -1,4 +1,4 @@
-package com.saggy.library
+package com.saggy.library.book
 
 class BookService {
 

@@ -1,5 +1,8 @@
 package com.saggy.library
 
+import com.saggy.library.book.Book
+import com.saggy.library.book.BookService
+import com.saggy.library.user.UserService
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
@@ -42,7 +45,16 @@ internal class LibraryTest {
     @Test
     fun `getAllBooks should return 1 element list when one book is available`() {
         // given
-        given(bookService.getBooks()).willReturn(listOf(Book("1", "Harry potter", "J L Rowling", 12000.98)))
+        given(bookService.getBooks()).willReturn(
+            listOf(
+                Book(
+                    "1",
+                    "Harry potter",
+                    "J L Rowling",
+                    12000.98
+                )
+            )
+        )
 
         // when
         val result = subject.getAllBooks()
@@ -56,7 +68,7 @@ internal class LibraryTest {
         // given
         val userId = "user-1"
         val bookId = "book-1"
-        val book = Book("book-3", "Harry Potter", "J K Rolling", 123.4)
+        val book = Book(bookId, "Harry Potter", "J K Rolling", 123.4)
 
         given(bookService.borrowBook(anyString())).willReturn(book)
         given(userService.addBook(anyString(), anyString())).willReturn(true)
@@ -75,16 +87,14 @@ internal class LibraryTest {
         // given
         val userId = "user-1"
         val bookId = "book-1"
-        given(bookService.borrowBook(bookId)).willThrow(RuntimeException("Book book-1 is not present in library"))
+        val errMsg = "Book book-1 is not present in library"
+        given(bookService.borrowBook(bookId)).willThrow(RuntimeException(errMsg))
 
         // when
-        val result = assertFailsWith<RuntimeException> {
-            val a = subject.borrowBook(userId, bookId)
-            println(a)
-        }
+        val result = assertFailsWith<RuntimeException> { subject.borrowBook(userId, bookId) }
 
         // then
-        assertEquals("Book book-1 is not present in library", result.message)
+        assertEquals(errMsg, result.message)
         verify(bookService).borrowBook(bookId)
         verifyNoInteractions(userService)
     }
@@ -106,5 +116,4 @@ internal class LibraryTest {
         verify(bookService).addBook(book)
         assertTrue(result)
     }
-
 }

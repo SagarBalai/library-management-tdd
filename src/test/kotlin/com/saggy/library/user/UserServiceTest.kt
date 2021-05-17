@@ -1,4 +1,4 @@
-package com.saggy.library
+package com.saggy.library.user
 
 import com.saggy.library.error.BookConstraintViolation
 import com.saggy.library.error.UserNotFoundException

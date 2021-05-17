@@ -1,4 +1,4 @@
-package com.saggy.library
+package com.saggy.library.book
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -49,8 +49,22 @@ internal class BookServiceTest {
         val book1 = Book(bookId, "Harry potter", "J K Rowling", 12000.98)
 
         subject.addBook(book1)
-        subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
-        subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
+        subject.addBook(
+            Book(
+                "book-2",
+                "Alone on a Wide, Wide Sea",
+                "Michael Morpurgo",
+                543.98
+            )
+        )
+        subject.addBook(
+            Book(
+                "book-3",
+                "O Jerusalem!",
+                "Larry Collins",
+                200.8
+            )
+        )
 
         //when
         val result = subject.borrowBook(bookId)
@@ -68,14 +82,28 @@ internal class BookServiceTest {
     fun `borrowBook - should throw exception when book is not available in library`() {
         // given
         val bookId = "book-1"
-        subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
-        subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
+        subject.addBook(
+            Book(
+                "book-2",
+                "Alone on a Wide, Wide Sea",
+                "Michael Morpurgo",
+                543.98
+            )
+        )
+        subject.addBook(
+            Book(
+                "book-3",
+                "O Jerusalem!",
+                "Larry Collins",
+                200.8
+            )
+        )
 
         //when
         val result = assertFailsWith<Exception> { subject.borrowBook(bookId) }
 
         // then
-        assertEquals("Book `book-1` is not present in library",result.message)
+        assertEquals("Book `book-1` is not present in library", result.message)
     }
 
 
