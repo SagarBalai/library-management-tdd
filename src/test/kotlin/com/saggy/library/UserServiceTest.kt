@@ -1,5 +1,6 @@
 package com.saggy.library
 
+import com.saggy.library.error.BookConstraintViolation
 import com.saggy.library.error.UserNotFoundException
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -54,5 +55,22 @@ internal class UserServiceTest {
 
         // then
         assertEquals("user `user-1` not present", result.message)
+    }
+
+    @Test
+    fun `addBook - should throw exception when adding third book for the same user`() {
+        // given
+        val userId = "user-1"
+
+        userService.addUser(User(userId, "Sagar"))
+        userService.addBook(userId, "book-1")
+        userService.addBook(userId, "book-2")
+
+        // when
+        val result = assertFailsWith<BookConstraintViolation> { userService.addBook(userId, "book-3") }
+
+        // then
+        assertEquals(2, userService.get(userId).getBooks.size)
+        assertEquals("User can borrow at most 2 books at a time, please submit and then borrow", result.message)
     }
 }

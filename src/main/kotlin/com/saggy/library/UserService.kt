@@ -8,8 +8,7 @@ class UserService {
 
     fun addBook(userId: String, bookId: String): Boolean {
         val user = get(userId)
-        user.addBook(bookId)
-        return true
+        return user.addBook(bookId)
     }
 
     fun get(userId: String): User {

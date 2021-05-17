@@ -2,6 +2,7 @@ package com.saggy.library
 
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.BDDMockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -62,7 +63,7 @@ internal class LibraryTest {
 
         // then
         verify(bookService).borrowBook(bookId)
-        verify(userService).addBook(userId,bookId)
+        verify(userService).addBook(userId, bookId)
         assertTrue(result)
     }
 
@@ -81,4 +82,23 @@ internal class LibraryTest {
         verifyNoInteractions(userService)
         assertFalse(result)
     }
+
+    @Test
+    fun `borrowBook -- should not add third book`() {
+        // given
+        val userId = "user-1"
+        given(bookService.borrowBook(anyString())).willReturn(true)
+
+        val bookId = "book-3"
+        given(userService.addBook(userId, bookId)).willReturn(false)
+
+        // when
+        val result = subject.borrowBook(userId, bookId)
+
+        // then
+        verify(bookService).borrowBook(bookId)
+        verify(userService).addBook(userId, bookId)
+        assertFalse(result)
+    }
+
 }
