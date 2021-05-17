@@ -1,5 +1,7 @@
 package com.saggy.library
 
+import com.saggy.library.error.UserNotFoundException
+
 class UserService {
 
     private val users = mutableMapOf<String, User>()
@@ -11,7 +13,10 @@ class UserService {
     }
 
     fun get(userId: String): User {
-        return users[userId]!!
+        if (users.containsKey(userId)) {
+            return users[userId]!!
+        }
+        throw UserNotFoundException("user `$userId` not present")
     }
 
     fun addUser(user: User) {

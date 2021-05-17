@@ -1,7 +1,9 @@
 package com.saggy.library
 
+import com.saggy.library.error.UserNotFoundException
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -43,4 +45,14 @@ internal class UserServiceTest {
         assertEquals(name, user.name)
     }
 
+    @Test
+    internal fun `get - should throw exception when user is not present`() {
+        // given
+
+        // when
+        val result = assertFailsWith<UserNotFoundException> { userService.get("user-1") }
+
+        // then
+        assertEquals("user `user-1` not present", result.message)
+    }
 }
