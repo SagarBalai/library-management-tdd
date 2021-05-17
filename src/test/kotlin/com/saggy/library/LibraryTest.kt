@@ -8,7 +8,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 internal class LibraryTest {
@@ -56,7 +56,10 @@ internal class LibraryTest {
         // given
         val userId = "user-1"
         val bookId = "book-1"
-        given(bookService.borrowBook(bookId)).willReturn(true)
+        val book = Book("book-3", "Harry Potter", "J K Rolling", 123.4)
+
+        given(bookService.borrowBook(anyString())).willReturn(book)
+        given(userService.addBook(anyString(), anyString())).willReturn(true)
 
         // when
         val result = subject.borrowBook(userId, bookId)
@@ -72,33 +75,36 @@ internal class LibraryTest {
         // given
         val userId = "user-1"
         val bookId = "book-1"
-        given(bookService.borrowBook(bookId)).willReturn(false)
+        given(bookService.borrowBook(bookId)).willThrow(RuntimeException("Book book-1 is not present in library"))
 
         // when
-        val result = subject.borrowBook(userId, bookId)
+        val result = assertFailsWith<RuntimeException> {
+            val a = subject.borrowBook(userId, bookId)
+            println(a)
+        }
 
         // then
+        assertEquals("Book book-1 is not present in library", result.message)
         verify(bookService).borrowBook(bookId)
         verifyNoInteractions(userService)
-        assertFalse(result)
     }
 
     @Test
-    fun `borrowBook -- should not add third book`() {
+    fun `borrowBook -- should not add third book for given user`() {
         // given
         val userId = "user-1"
-        given(bookService.borrowBook(anyString())).willReturn(true)
-
-        val bookId = "book-3"
-        given(userService.addBook(userId, bookId)).willReturn(false)
+        val book = Book("book-3", "Harry Potter", "J K Rolling", 123.4)
+        given(bookService.borrowBook(anyString())).willReturn(book)
+        given(userService.addBook(userId, book.id)).willReturn(false)
 
         // when
-        val result = subject.borrowBook(userId, bookId)
+        val result = subject.borrowBook(userId, book.id)
 
         // then
-        verify(bookService).borrowBook(bookId)
-        verify(userService).addBook(userId, bookId)
-        assertFalse(result)
+        verify(bookService).borrowBook(book.id)
+        verify(userService).addBook(userId, book.id)
+        verify(bookService).addBook(book)
+        assertTrue(result)
     }
 
 }

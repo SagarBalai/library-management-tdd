@@ -2,6 +2,7 @@ package com.saggy.library
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -45,7 +46,9 @@ internal class BookServiceTest {
     fun `borrowBook - should return true and remove book from library for given book is available in library`() {
         // given
         val bookId = "book-1"
-        subject.addBook(Book(bookId, "Harry potter", "J K Rowling", 12000.98))
+        val book1 = Book(bookId, "Harry potter", "J K Rowling", 12000.98)
+
+        subject.addBook(book1)
         subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
         subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
 
@@ -53,7 +56,7 @@ internal class BookServiceTest {
         val result = subject.borrowBook(bookId)
 
         // then
-        assertTrue(result)
+        assertEquals(book1, result)
 
         val availableBooks = subject.getBooks()
         assertTrue(availableBooks.size == 2)
@@ -62,18 +65,17 @@ internal class BookServiceTest {
 
 
     @Test
-    fun `borrowBook - should return false for given book is available in library`() {
+    fun `borrowBook - should throw exception when book is not available in library`() {
         // given
         val bookId = "book-1"
         subject.addBook(Book("book-2", "Alone on a Wide, Wide Sea", "Michael Morpurgo", 543.98))
         subject.addBook(Book("book-3", "O Jerusalem!", "Larry Collins", 200.8))
 
         //when
-        val result = subject.borrowBook(bookId)
+        val result = assertFailsWith<Exception> { subject.borrowBook(bookId) }
 
         // then
-        assertFalse(result)
-        assertTrue(subject.getBooks().size == 2)
+        assertEquals("Book `book-1` is not present in library",result.message)
     }
 
 
