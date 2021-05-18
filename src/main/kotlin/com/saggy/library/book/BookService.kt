@@ -18,10 +18,10 @@ class BookService {
         }
     }
 
-    fun borrowBook(bookId: String): Book {
+    fun removeBook(bookId: String): Book {
         if (!books.containsKey(bookId)) {
             throw RuntimeException("Book `$bookId` is not present in library")
         }
-        return books.remove(bookId)!!
+        return books.remove(bookId)!!.copy(count = 1)
     }
 }

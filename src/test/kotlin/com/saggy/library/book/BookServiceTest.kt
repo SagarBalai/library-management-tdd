@@ -43,7 +43,7 @@ internal class BookServiceTest {
     }
 
     @Test
-    fun `borrowBook - should return true and remove book from library for given book is available in library`() {
+    fun `removeBook - should return true and remove book from library for given book is available in library`() {
         // given
         val bookId = "book-1"
         val book1 = Book(bookId, "Harry potter", "J K Rowling", 12000.98)
@@ -67,7 +67,7 @@ internal class BookServiceTest {
         )
 
         //when
-        val result = subject.borrowBook(bookId)
+        val result = subject.removeBook(bookId)
 
         // then
         assertEquals(book1, result)
@@ -79,7 +79,7 @@ internal class BookServiceTest {
 
 
     @Test
-    fun `borrowBook - should throw exception when book is not available in library`() {
+    fun `removeBook - should throw exception when book is not available in library`() {
         // given
         val bookId = "book-1"
         subject.addBook(
@@ -100,7 +100,7 @@ internal class BookServiceTest {
         )
 
         //when
-        val result = assertFailsWith<Exception> { subject.borrowBook(bookId) }
+        val result = assertFailsWith<Exception> { subject.removeBook(bookId) }
 
         // then
         assertEquals("Book `book-1` is not present in library", result.message)
@@ -137,4 +137,24 @@ internal class BookServiceTest {
         assertEquals(book.copy(count = 10), result[0])
     }
 
+    @Test
+    internal fun `removeBook - should borrow 1 copy for available book in library`() {
+        // given
+        val id = "book-2"
+        val book = Book(
+            id,
+            "Alone on a Wide, Wide Sea",
+            "Michael Morpurgo",
+            543.98,
+            10
+        )
+        subject.addBook(book)
+
+        //when
+        val result = subject.removeBook(id)
+
+        // then
+        assertEquals(book.copy(count = 1), result)
+        assertEquals(book.copy(count = 9), subject.getBooks()[0])
+    }
 }

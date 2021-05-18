@@ -70,14 +70,14 @@ internal class LibraryTest {
         val bookId = "book-1"
         val book = Book(bookId, "Harry Potter", "J K Rolling", 123.4)
 
-        given(bookService.borrowBook(anyString())).willReturn(book)
+        given(bookService.removeBook(anyString())).willReturn(book)
         given(userService.addBook(anyString(), anyString())).willReturn(true)
 
         // when
         val result = subject.borrowBook(userId, bookId)
 
         // then
-        verify(bookService).borrowBook(bookId)
+        verify(bookService).removeBook(bookId)
         verify(userService).addBook(userId, bookId)
         assertTrue(result)
     }
@@ -88,14 +88,14 @@ internal class LibraryTest {
         val userId = "user-1"
         val bookId = "book-1"
         val errMsg = "Book book-1 is not present in library"
-        given(bookService.borrowBook(bookId)).willThrow(RuntimeException(errMsg))
+        given(bookService.removeBook(bookId)).willThrow(RuntimeException(errMsg))
 
         // when
         val result = assertFailsWith<RuntimeException> { subject.borrowBook(userId, bookId) }
 
         // then
         assertEquals(errMsg, result.message)
-        verify(bookService).borrowBook(bookId)
+        verify(bookService).removeBook(bookId)
         verifyNoInteractions(userService)
     }
 
@@ -104,14 +104,14 @@ internal class LibraryTest {
         // given
         val userId = "user-1"
         val book = Book("book-3", "Harry Potter", "J K Rolling", 123.4)
-        given(bookService.borrowBook(anyString())).willReturn(book)
+        given(bookService.removeBook(anyString())).willReturn(book)
         given(userService.addBook(userId, book.id)).willReturn(false)
 
         // when
         val result = subject.borrowBook(userId, book.id)
 
         // then
-        verify(bookService).borrowBook(book.id)
+        verify(bookService).removeBook(book.id)
         verify(userService).addBook(userId, book.id)
         verify(bookService).addBook(book)
         assertTrue(result)
