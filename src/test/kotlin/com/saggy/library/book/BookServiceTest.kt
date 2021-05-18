@@ -106,5 +106,35 @@ internal class BookServiceTest {
         assertEquals("Book `book-1` is not present in library", result.message)
     }
 
+    @Test
+    fun `addBook - should able to add 10 copies of the same book at a time`() {
+        // given
+        val book = Book("book-1", "Harry potter", "J K Rowling", 12000.98, 10)
+
+        //when
+        subject.addBook(book)
+
+        // then
+        val books = subject.getBooks()
+        assertEquals(1, books.size)
+        assertEquals(book, books[0])
+    }
+
+    @Test
+    fun `addBook - should add same book with 10 copies separately`() {
+        // given
+        val book = Book("book-1", "Harry potter", "J K Rowling", 12000.98)
+
+        // when
+        for (i in 0..9) {
+            subject.addBook(book.copy())
+        }
+
+        //then
+        val result = subject.getBooks()
+        assertEquals(1, result.size)
+        assertEquals(10, result[0].count)
+        assertEquals(book.copy(count = 10), result[0])
+    }
 
 }

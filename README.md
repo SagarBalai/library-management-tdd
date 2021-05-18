@@ -28,6 +28,9 @@ Note:
     Each User has a borrowing limit of 2 books at any point of time
 
 
+
+// current story:
+
   3  User can borrow a copy of a book from the library
 
     Given, there are more than one copy of a book in the library
@@ -62,3 +65,6 @@ To commit with personal Id use below command after each commit:
 Decisions:
 1. Replace list to map -- improve performance in borrowBook
    Currently to remove element from List - it iterate over complete list so O(N) which can be reduced to O(1) 
+
+2. Before borrow any book copy, first we should be able to add more copies for the same book so addBook needs to change first before borrowBook.
+   So addBook implemented before borrowBook in BookService

@@ -9,7 +9,13 @@ class BookService {
     }
 
     fun addBook(book: Book) {
-        books[book.id] = book
+        var curBook = books[book.id]
+        if (curBook == null) {
+            curBook = book
+            books[curBook.id] = curBook
+        } else {
+            curBook.count += book.count
+        }
     }
 
     fun borrowBook(bookId: String): Book {
