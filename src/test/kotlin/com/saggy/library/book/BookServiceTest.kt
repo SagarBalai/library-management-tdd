@@ -138,7 +138,7 @@ internal class BookServiceTest {
     }
 
     @Test
-    internal fun `removeBook - should borrow 1 copy for available book in library`() {
+    internal fun `removeBook - multiple scenarios`() {
         // given
         val id = "book-2"
         val book = Book(
@@ -150,11 +150,26 @@ internal class BookServiceTest {
         )
         subject.addBook(book)
 
-        //when
-        val result = subject.removeBook(id)
+        for (i in 0..8) {
+            //when
+            val result = subject.removeBook(id)
+
+            // then
+            assertEquals(book.copy(count = 0), result)
+            assertEquals(book.copy(count = 9 - i), subject.getBooks()[0])
+        }
+
+        // when  -- last element
+        subject.removeBook(id)
 
         // then
-        assertEquals(book.copy(count = 1), result)
-        assertEquals(book.copy(count = 9), subject.getBooks()[0])
+        assertTrue(subject.getBooks().isEmpty())
+
+        // when -- library does not have that book
+        val result = assertFailsWith<Exception> { subject.removeBook(id) }
+
+        // then
+        assertEquals("Book `book-2` is not present in library", result.message)
+
     }
 }

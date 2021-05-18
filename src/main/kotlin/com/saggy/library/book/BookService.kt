@@ -19,9 +19,15 @@ class BookService {
     }
 
     fun removeBook(bookId: String): Book {
+
         if (!books.containsKey(bookId)) {
             throw RuntimeException("Book `$bookId` is not present in library")
         }
-        return books.remove(bookId)!!.copy(count = 1)
+        val book = books[bookId]!!
+        if (--book.count == 0) {
+            books.remove(bookId)
+        }
+
+        return book.copy(count = 0)
     }
 }
