@@ -1,5 +1,6 @@
 package com.saggy.library.book
 
+import com.saggy.library.error.BadRequest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -138,6 +139,18 @@ internal class BookServiceTest {
     }
 
     @Test
+    fun `addBook - should throw validation exception when tried to add book with negative or zero count`() {
+        // given
+        val book = Book("book-1", "Harry potter", "J K Rowling", 12000.98, -1)
+
+        // when
+        val result = assertFailsWith<BadRequest> { subject.addBook(book.copy()) }
+
+        //then
+        assertEquals("Count can not be zero or negative for book", result.message)
+    }
+
+    @Test
     internal fun `removeBook - multiple scenarios`() {
         // given
         val id = "book-2"
@@ -170,6 +183,5 @@ internal class BookServiceTest {
 
         // then
         assertEquals("Book `book-2` is not present in library", result.message)
-
     }
 }

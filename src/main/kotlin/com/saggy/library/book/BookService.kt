@@ -1,5 +1,7 @@
 package com.saggy.library.book
 
+import com.saggy.library.error.BadRequest
+
 class BookService {
 
     private val books = mutableMapOf<String, Book>()
@@ -9,6 +11,9 @@ class BookService {
     }
 
     fun addBook(book: Book) {
+        if(book.count <=0){
+            throw BadRequest("Count can not be zero or negative for book")
+        }
         var curBook = books[book.id]
         if (curBook == null) {
             curBook = book
