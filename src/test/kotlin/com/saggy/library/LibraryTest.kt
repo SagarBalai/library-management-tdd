@@ -12,6 +12,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 internal class LibraryTest {
@@ -100,7 +101,7 @@ internal class LibraryTest {
     }
 
     @Test
-    fun `borrowBook -- should not add third book for given user`() {
+    fun `borrowBook -- should again add the book to library which was removed in request when user is unable to borrow book`() {
         // given
         val userId = "user-1"
         val book = Book("book-3", "Harry Potter", "J K Rolling", 123.4)
@@ -114,6 +115,6 @@ internal class LibraryTest {
         verify(bookService).removeBook(book.id)
         verify(userService).addBook(userId, book.id)
         verify(bookService).addBook(book)
-        assertTrue(result)
+        assertFalse(result)
     }
 }

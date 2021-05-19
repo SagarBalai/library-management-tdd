@@ -29,8 +29,6 @@ Note:
 
 
 
-// current story:
-
   3  User can borrow a copy of a book from the library
 
     Given, there are more than one copy of a book in the library
@@ -43,6 +41,7 @@ Note:
     Then, one copy of the book is added to my borrowed list
     And, the book is removed from the library
 
+// current story:
 Note:
 Only 1 copy of a book can be borrowed by a User at any point of time
 

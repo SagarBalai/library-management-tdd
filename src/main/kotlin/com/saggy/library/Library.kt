@@ -11,14 +11,15 @@ class Library(private val bookService: BookService, private val userService: Use
     }
 
     fun borrowBook(userId: String, bookId: String): Boolean {
+        var isBorrowed = false
         var borrowBook = bookService.removeBook(bookId)
         if (borrowBook != null) {
             val added = userService.addBook(userId, bookId)
             if (!added) {
                 bookService.addBook(borrowBook)
             }
-            return true
+            isBorrowed = added
         }
-        return false
+        return isBorrowed
     }
 }
