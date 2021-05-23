@@ -6,6 +6,10 @@ import com.saggy.library.user.UserService
 
 class Library(private val bookService: BookService, private val userService: UserService) {
 
+    fun addBook(userId: String, book: Book): Boolean {
+        return false
+    }
+
     fun getAllBooks(): List<Book> {
         return bookService.getBooks()
     }
