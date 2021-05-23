@@ -1,6 +1,6 @@
 # Run project using
 mvn clean install
-Run individual test under test folder
+Run individual test under test folder but LibraryTest is starting point.
 
 
 Decisions:
